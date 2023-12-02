@@ -1,6 +1,6 @@
 # Repositorio de Aprendizaje: Java Orientado a Objetos
 
-¡Bienvenido a mi repositorio de aprendizaje dedicado a Java Orientado a Objetos! 🚀
+¡Bienvenido a mi repositorio de aprendizaje dedicado a Java Orientado a Objetos! 
 
 ## Acerca de este Repositorio
 
