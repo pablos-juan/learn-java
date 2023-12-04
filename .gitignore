@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 .idea/
 POO.iml
+learn-java.iml
 
 ### Eclipse ###
 .apt_generated
