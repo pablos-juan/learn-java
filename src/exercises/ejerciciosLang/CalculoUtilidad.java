@@ -12,6 +12,7 @@ Menos de un año: utilidad=5% del salario.
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalculoUtilidad {
@@ -25,12 +26,28 @@ public class CalculoUtilidad {
         double salarioMensual, utilidad;
         int antiguedad;
 
-        //Solicitar el salario y la antiguedad del trabajador.
-        System.out.print("Ingrese el salario mensual del trabajador: ");
-        salarioMensual = sc.nextDouble();
+        while (true) {
+            //Solicitar el salario y la antiguedad del trabajador.
+            System.out.print("Ingrese el salario mensual del trabajador: ");
+            try {
+                salarioMensual = sc.nextDouble();
+                break; //romper el ciclo
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un numero.");
+                sc.nextLine(); //limpiar el buffer
+            }
+        }
 
-        System.out.print("Ingrese la antiguedad en años del trabajador: ");
-        antiguedad = sc.nextInt();
+        while (true) {
+            try {
+                System.out.print("Ingrese la antiguedad en años del trabajador: ");
+                antiguedad = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un numero.");
+                sc.nextLine();
+            }
+        }
 
         //Encontrar la utilidad del trabajado.
         if (antiguedad >= 10 ) {
