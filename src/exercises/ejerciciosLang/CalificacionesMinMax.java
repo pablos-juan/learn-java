@@ -10,6 +10,7 @@ Hacer un programa que pida todas la calificaciones, e indicar finalmente cuánta
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalificacionesMinMax {
@@ -18,17 +19,41 @@ public class CalificacionesMinMax {
         int numMin, numNotas;
         double calificacion;
         int mayoresIguales=0;
+
         System.out.print("Escriba el número de notas: ");
-        numNotas=sc.nextInt();
+        while (true) {
+            try {
+                numNotas = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
         System.out.print("Esriba la nota mínima: ");
-        numMin=sc.nextInt();
+        while (true) {
+            try {
+                numMin = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
         for (int i = 1; i <= numNotas; i++)  {
             System.out.println("Escriba la calificación "  + i + ": ");
-            calificacion=sc.nextDouble();
-
-            if (calificacion>=numMin) {
+            while (true) {
+                try {
+                    calificacion = sc.nextDouble();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
+            }
+            if (calificacion >= numMin) {
                 mayoresIguales++;
             }
         }

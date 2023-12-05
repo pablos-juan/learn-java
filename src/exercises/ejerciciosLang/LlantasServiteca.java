@@ -11,21 +11,27 @@ Obtener la cantidad de dinero que una persona tiene que pagar por cada una de la
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LlantasServiteca {
     public static void main(String[] args) {
-
-        //Entrada de datos.
         Scanner sc = new Scanner(System.in);
-        //Definir variables.
         int llantas, vrUnidad, vrTotal;
 
-        //Encontrar y almacenar el numero de llantas a comprar.
-        System.out.println("Numero de llantas Pirilli: ");
-        llantas=sc.nextInt();
+        //encontrar y almacenar el numero de llantas a comprar
+        System.out.print("Numero de llantas Pirilli: ");
+        while (true) {
+            try {
+                llantas = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
-        //Encontrar el valor dde cada llanta.
+        //encontrar el valor de cada llanta
         if (llantas>10) {
           vrUnidad = 50;
         } else if (llantas>=5) {
@@ -34,10 +40,10 @@ public class LlantasServiteca {
             vrUnidad = 100;
         }
 
-        //Encontrar valor total de las llantas.
-        vrTotal = vrUnidad*llantas;
+        //encontrar valor total de las llantas
+        vrTotal = vrUnidad * llantas;
 
-        //Imprimir recibo.
+        //imprimir recibo
         System.out.println("Llantas Pirilli: " + llantas);
         System.out.println("Valor Unidad: $" + vrUnidad);
         System.out.println("Valor Total: $" + vrTotal);

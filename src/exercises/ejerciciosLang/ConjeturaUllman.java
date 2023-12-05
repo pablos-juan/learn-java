@@ -21,13 +21,20 @@ import java.util.Scanner;
 public class ConjeturaUllman {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         int numero;
 
         //Repetir la solicitud mientras el numero no sea mayor que uno.
         do {
             System.out.println("Digite un número mayor que 1 (uno) para empezar: ");
-            numero=sc.nextInt();
+            while (true) {
+                try {
+                    numero = sc.nextInt();
+                    break;
+                } catch (IncompatibleClassChangeError e) {
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
+            }
         } while (numero<=1);
 
         //Imprimir el numero, una coma y un espacio.
@@ -35,7 +42,6 @@ public class ConjeturaUllman {
 
         //Repetir mientra que numero sea diferente de 1.
         while (numero != 1) {
-
             if (numero%2==0) {
                 //Si es par dividir por 2.
                 numero=numero/2;
@@ -43,13 +49,10 @@ public class ConjeturaUllman {
                 //Si es impar multiplicar por 3 y sumar 1.
                 numero=(numero*3)+1;
             }
-
             System.out.print(numero);
-
             if (numero != 1) {
                 System.out.print(", ");
             }
-
         }
     }
 }

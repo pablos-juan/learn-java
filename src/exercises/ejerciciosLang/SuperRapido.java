@@ -1,8 +1,7 @@
 package exercises.ejerciciosLang;
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// Juan Pablo Castaño Sanchez. 20231213945
 public class SuperRapido {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -11,9 +10,16 @@ public class SuperRapido {
 
         do {
             System.out.println("Ingrese el número de envíos: ");
-            nFilas = sc.nextInt();
-            validarTamaño(nFilas); //funcion que valida el tamaño
-        } while (nFilas<1 || nFilas>100);
+            while (true) {
+                try {
+                    nFilas = sc.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
+            }
+        } while (nFilas < 0 || nFilas > 100);
 
         //definir matriz
         double[][] matriz = new double[nFilas][7];
@@ -23,13 +29,31 @@ public class SuperRapido {
             System.out.println("Elija un tipo de servicio: ");
             System.out.println("1. Nacional");
             System.out.println("2. Internacional");
-            int servicio=sc.nextInt();
+            int servicio;
+            while (true) {
+                try {
+                    servicio = sc.nextInt();
+                    break;
+                } catch (InputMismatchException e) { //excepcion NegativeArraySizeException -> arreglar
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
+            }
             matriz[i][0]=servicio;
             if (servicio==2) internacionales++;
 
             //Peso:
             System.out.println("Digite el peso del envío en kilos: ");
-            double kilos=sc.nextInt();
+            double kilos;
+            while (true) {
+                try {
+                    kilos = sc.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
+            }
             matriz[i][2]=kilos;
 
             //Tipo de producto:
@@ -37,37 +61,37 @@ public class SuperRapido {
             System.out.println("1. Normal. ");
             System.out.println("2. Rápido. ");
             System.out.print("Opcion: ");
-            int opcion=sc.nextInt();
+            int opcion;
+            while (true) {
+                try {
+                    opcion = sc.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese el número.");
+                    sc.nextLine();
+                }
+            }
             matriz[i][1]=opcion;
 
             //determinar el valor del kilo
-            switch (opcion){
-                case 1:
-                    if (kilos>8){
-                        vrKilo=3900;
-                    } else {
-                        vrKilo=3600;
-                    }
-                    break;
-                case 2:
-                    if (kilos>8){
-                        vrKilo=4500;
-                    } else {
-                        vrKilo=4200;
-                    }
-                    break;
-            }
+            vrKilo = switch (opcion) {
+                case 1 -> (kilos > 8) ? 3900 : 3600;
+                case 2 -> (kilos > 8) ? 4500 : 4200;
+                default -> vrKilo;
+            };
 
             //Valor del transporte:
             transporte=vrKilo*kilos;
 
             //Flete internacional:
-            if (servicio==2) {
-                seguro=4;
-                vrFlete=(transporte*10)/100;
-                matriz[i][3]=vrFlete;
+            switch (servicio) {
+                case 1 -> seguro = 2;
+                case 2 -> {
+                    seguro = 4;
+                    vrFlete = (transporte * 10) / 100;
+                    matriz[i][3]=vrFlete;
+                }
             }
-            if (servicio==1) seguro=2;
 
             //Valor seguro
             seguro=(transporte*seguro)/100;
@@ -135,6 +159,7 @@ public class SuperRapido {
             }
         }
         System.out.println();
+
         System.out.println("Servicios internacionales: ");
         for (int i=0; i<matriz.length; i++){
             if (matriz[i][0] == 2){
@@ -142,15 +167,5 @@ public class SuperRapido {
             }
         }
 
-    }
-
-    //podría cambiarse por try cath y agregar excepciones. Revisar
-    public static void validarTamaño(int nFilas){
-        if (nFilas<0){
-            System.out.println("Error. Ingrese un valor entre 1 y 100.");
-        }
-        if (nFilas>100){
-            System.out.println("Límite de envíos excedido.");
-        }
     }
 }

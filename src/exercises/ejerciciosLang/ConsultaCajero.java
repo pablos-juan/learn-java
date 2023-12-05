@@ -14,6 +14,7 @@ Luego hace estos controles y emite estos mensajes:
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsultaCajero {
@@ -27,9 +28,26 @@ public class ConsultaCajero {
 
         //Encontrar la cantidad de dinero que tiene el cajero y el monto que desea retirar.
         System.out.print("Digite la cantidad de dinero que tiene el cajero: ");
-        dDisponible=sc.nextInt();
+        while (true) {
+            try {
+                dDisponible = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
+
         System.out.print("Digite la cantidad que desea retirar: ");
-        dRetirar=sc.nextInt();
+        while (true) {
+            try {
+                dRetirar = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
         //Condicionales.
         if (dRetirar%10!=0) {

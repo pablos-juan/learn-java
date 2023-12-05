@@ -11,21 +11,36 @@ Las personas adscritas a la jubilación por antigüedad adulta deben tener 60 a�
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JubilacionClasificacion {
     public static void main(String[] args) {
         //Entrada de datos
         Scanner sc = new Scanner(System.in);
-
         int edad, antiguedad;
-        char opcion;
 
         System.out.print("Ingrese la edad de la persona: ");
-        edad = sc.nextInt();
+        while (true) {
+            try {
+                edad = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
         System.out.print("Ingrese la antigüedad en su empleo (en años): ");
-        antiguedad = sc.nextInt();
+        while (true) {
+            try {
+                antiguedad = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                sc.nextLine();
+            }
+        }
 
         if (edad >= 60 && antiguedad >= 25) {
             System.out.println("La persona se jubilará por antigüedad adulta.");
