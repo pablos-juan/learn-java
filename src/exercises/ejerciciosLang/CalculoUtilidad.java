@@ -18,52 +18,57 @@ import java.util.Scanner;
 public class CalculoUtilidad {
 
     public static void main(String[] args) {
-
-        //Entrada de datos.
+        //entrada de datos
         Scanner sc = new Scanner(System.in);
 
-        //Definir variables.
-        double salarioMensual, utilidad;
-        int antiguedad;
+        //definir variables
+        double salarioMensual = obtenerSalarioMensual(sc);
+        int antiguedad = obtenerAntiguedad(sc);
+        //calcular utilidad
+        double utilidad = obtenerUtilidad(salarioMensual, antiguedad);
 
-        while (true) {
-            //Solicitar el salario y la antiguedad del trabajador.
-            System.out.print("Ingrese el salario mensual del trabajador: ");
-            try {
-                salarioMensual = sc.nextDouble();
-                break; //romper el ciclo
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un numero.");
-                sc.nextLine(); //limpiar el buffer
-            }
-        }
 
-        while (true) {
-            try {
-                System.out.print("Ingrese la antiguedad en años del trabajador: ");
-                antiguedad = sc.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un numero.");
-                sc.nextLine();
-            }
-        }
-
-        //Encontrar la utilidad del trabajado.
-        if (antiguedad >= 10 ) {
-            utilidad=salarioMensual*0.20;
-        } else if (antiguedad >= 5) {
-            utilidad=salarioMensual*0.15;
-        } else if (antiguedad >= 2) {
-            utilidad=salarioMensual*0.10;
-        } else if (antiguedad >= 1) {
-            utilidad=salarioMensual*0.07;
-        } else {
-            utilidad=salarioMensual*0.05;
-        }
-
-        //Imprimir utilidad.
+        //mostrar resultado
         System.out.println("La utilidad del trabajador es: $" + utilidad);
+    }
+
+    //refactoring code
+    private static double obtenerSalarioMensual(Scanner scanner) {
+        while (true) {
+            System.out.print("Ingrese el salario mensual: ");
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    private static int obtenerAntiguedad(Scanner scanner) {
+        while (true) {
+            System.out.print("Ingrese la antiguedad en años: ");
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    private static double obtenerUtilidad(double salarioMensual, int antiguedad) {
+        if (antiguedad >= 10) {
+            return salarioMensual * 0.20;
+        } else if (antiguedad >= 5) {
+            return salarioMensual * 0.15;
+        } else if (antiguedad >= 2) {
+            return salarioMensual * 0.10;
+        } else if (antiguedad == 1) {
+            return salarioMensual * 0.07;
+        } else {
+            return salarioMensual * 0.05;
+        }
     }
 }
 
