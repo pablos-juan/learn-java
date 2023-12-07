@@ -18,17 +18,11 @@ import java.util.Scanner;
 public class CalculoUtilidad {
 
     public static void main(String[] args) {
-        //entrada de datos
         Scanner sc = new Scanner(System.in);
-
-        //definir variables
         double salarioMensual = obtenerSalarioMensual(sc);
         int antiguedad = obtenerAntiguedad(sc);
-        //calcular utilidad
         double utilidad = obtenerUtilidad(salarioMensual, antiguedad);
 
-
-        //mostrar resultado
         System.out.println("La utilidad del trabajador es: $" + utilidad);
     }
 

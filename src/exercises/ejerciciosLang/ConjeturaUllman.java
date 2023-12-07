@@ -23,36 +23,34 @@ public class ConjeturaUllman {
         Scanner sc = new Scanner(System.in);
         int numero;
 
-        //Repetir la solicitud mientras el numero no sea mayor que uno.
         do {
-            System.out.println("Digite un número mayor que 1 (uno) para empezar: ");
-            while (true) {
-                try {
-                    numero = sc.nextInt();
-                    break;
-                } catch (IncompatibleClassChangeError e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
+            System.out.println("Digite un número mayor que 1: ");
+            numero = obtenerNumero(sc);
         } while (numero<=1);
 
-        //Imprimir el numero, una coma y un espacio.
         System.out.print(numero + ", ");
 
-        //Repetir mientra que numero sea diferente de 1.
-        while (numero != 1) {
-            if (numero%2==0) {
-                //Si es par dividir por 2.
-                numero=numero/2;
-            } else {
-                //Si es impar multiplicar por 3 y sumar 1.
-                numero=(numero*3)+1;
-            }
-            System.out.print(numero);
-            if (numero != 1) {
-                System.out.print(", ");
+        while (numero != 1) { //mientras que numero no sea 1
+            //dividir entre 2 si es par, multiplicar por 3 y sumar 1 si es impar
+            numero = numero % 2 == 0 ? numero/2 : (numero*3) + 1;
+
+            imprimirNumero(numero);
+        }
+    }
+
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (IncompatibleClassChangeError e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
             }
         }
+    }
+
+    public static void imprimirNumero(int numero) {
+        System.out.print(numero);
+        if (numero > 1) System.out.print(", ");
     }
 }

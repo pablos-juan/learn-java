@@ -16,8 +16,7 @@ public class SorteoSupermercado {
         Scanner sc = new Scanner(System.in);
         String premio;
         String color="";
-        int opcionColor;
-        int numero;
+        int opcionColor, numero;
         double descuento = 0;
 
         do {
@@ -25,16 +24,8 @@ public class SorteoSupermercado {
             System.out.println("1. Amarillo.");
             System.out.println("2. Azul.");
             System.out.println("3. Rojo.");
-            while (true) {
-                try {
-                    opcionColor = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
-        } while (opcionColor<1 || opcionColor>3);
+            opcionColor = obtenerNumero(sc);
+        } while (opcionColor > 4 || opcionColor < 0);
 
         color = switch (opcionColor) {
             case 1 -> "Amarillo";
@@ -45,15 +36,7 @@ public class SorteoSupermercado {
 
         do {
             System.out.print("Número de la bola: ");
-            while (true) {
-                try {
-                    numero = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
+            numero = obtenerNumero(sc);
         } while (numero<1 || numero>5);
 
         switch (numero) {
@@ -96,6 +79,16 @@ public class SorteoSupermercado {
                 };
                 System.out.println("Su bola " + color + " tiene un premio de " + premio);
                 break;
+        }
+    }
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
         }
     }
 }

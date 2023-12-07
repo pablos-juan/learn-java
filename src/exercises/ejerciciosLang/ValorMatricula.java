@@ -15,191 +15,131 @@ Obtener el total que tendrá que pagar un alumno si el valor de la matrícula pa
 */
 
 package exercises.ejerciciosLang;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ValorMatricula {
     public static void main(String[] args) {
-
-        //Entrada de datos.
         Scanner sc = new Scanner(System.in);
-        //Definir variables.
-        int estudiante, perdidas, vrMatricula, vrPagar;
+        int estudiante, perdidas, vrPagar;
+        int vrMatricula = 0;
         double promedio;
 
         do {
-            //Mostrar menu para definir que tipo de estudiante realiza la solicitud.
             System.out.println("Elija el tipo de estudiante: ");
             System.out.println("1. Tecnología. ");
             System.out.println("2. Profesional. ");
             System.out.print("Opcion: ");
-            estudiante = sc.nextInt();
-
-            //Verificar si la opcion es incorrecta y mostrar un mensaje.
-            if (estudiante<1 || estudiante>2) {
-                System.out.println("Opción incorrecta. Por favor, elija 1 para Tecnología o 2 para Profesional.");
+            while (true) {
+                try {
+                    estudiante = sc.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese un número.");
+                    sc.nextLine();
+                }
             }
 
-         //Ciclo para mostrar de nuevo menú de opciones.
-        }while (estudiante<1 || estudiante>2);
+        }while (!validarOpcion(estudiante));
 
+        double descuento = 0.0;
+        int creditosInscritos = 0;
+        int totalCreditos;
 
-        double descuento=0.0;
-        int creditos=0;
-        int tCreditos;
-
-        //Definir los casos si el estudiante es de Tecnología o es Profesional.
         switch (estudiante) {
-
-            //En caso de estudiante Tecnología.
-            case 1:
-
-                //Menú para agregar el promedio.
+            case 1: //estudiante tecnología
                 System.out.println("~TECNOLOGIA~");
-                System.out.println("Digite el promedio: ");
-                promedio = sc.nextFloat();
+                promedio = obtenerPromedio(sc);
 
-                //Cicclo para encontrar el numero de créditos máximos y el descuento si lo hay.
-                if (promedio >= 9.5) {
-                    descuento=0.25;
-                    tCreditos=55;
-                    System.out.println("Sus créditos son: " + tCreditos);
-
-                    //Ciclo cuando se exede el numero de creditos.
-                    do {
-                        System.out.print("Digite el número de créditos que desa inscribir: ");
-                        creditos=sc.nextInt();
-
-                        if (creditos<=55) {
-                        } else {
-                            System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                        }
-
-                    } while (creditos>55);
-
-
+                if (promedio>=9.5) {
+                    descuento = 0.25;
+                    totalCreditos = 55;
                 } else if (promedio >= 9) {
                     descuento = 0.1;
-                    tCreditos=50;
-                    System.out.println("Sus créditos son: " + tCreditos);
-
-                    do {
-                        System.out.print("Digite el número de créditos que desa inscribir: ");
-                        creditos=sc.nextInt();
-
-                        if (creditos<=50) {
-                        } else {
-                            System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                        }
-
-                    } while (creditos>50);
-
+                    totalCreditos =50;
                 } else if (promedio > 7) {
-                    tCreditos=50;
-                    System.out.println("Sus créditos son: " + tCreditos);
-
-                    do {
-                        System.out.print("Digite el número de créditos que desa inscribir: ");
-                        creditos=sc.nextInt();
-
-                        if (creditos<=50) {
-                        } else {
-                            System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                        }
-
-                    } while (creditos>50);
-
+                    totalCreditos =50;
                 } else {
-                    System.out.println("Por favor digite el número de materias perdidas.");
-                    perdidas = sc.nextInt();
-
-                    if (perdidas >= 4) {
-                        tCreditos=40;
-                        System.out.println("Sus créditos son: " + tCreditos);
-
-                        do {
-                            System.out.print("Digite el número de créditos que desa inscribir: ");
-                            creditos=sc.nextInt();
-
-                            if (creditos<=40) {
-                            } else {
-                                System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                            }
-
-                        } while (creditos>40);
-
-                    } else {
-                        tCreditos=45;
-                        System.out.println("Sus créditos son: " + tCreditos);
-
-                        do {
-                            System.out.print("Digite el número de créditos que desa inscribir: ");
-                            creditos=sc.nextInt();
-
-                            if (creditos<=45) {
-                            } else {
-                                System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                            }
-
-                        } while (creditos>45);
-
+                    System.out.println("Número de materias perdidas.");
+                    while (true) {
+                        try {
+                            perdidas = sc.nextInt();
+                            break;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Error. Ingrese un número.");
+                            sc.nextLine();
+                        }
                     }
+                    totalCreditos = perdidas >= 4 ? 40 : 45;
                 }
 
-                vrMatricula= (int) (creditos*360);
-                vrPagar= (int) (vrMatricula-descuento);
-                System.out.println("Numero de créditos: " + creditos);
-                System.out.println("El valor de su matrícula es: $" + vrMatricula);
-                System.out.println("Descuento: " + (descuento*100) + "%");
-                System.out.println("Valor total: $" + vrPagar);
+                System.out.println("Sus créditos son: " + totalCreditos);
+                creditosInscritos = inscribirCreditos(totalCreditos, sc);
+                vrMatricula = creditosInscritos *360;
                 break;
-
-            //En caso de estudiante Profesional.
-            case 2:
-
+            case 2: //estudiante profesional
                 System.out.println("~PROFESIONAL~");
-                System.out.println("Digite el promedio: ");
-                promedio = sc.nextFloat();
+                promedio = obtenerPromedio(sc);
 
-                if (promedio >= 9.5) {
-                    descuento=0.2;
-                    tCreditos=55;
-                    System.out.println("Sus créditos son: " + tCreditos);
+                descuento = promedio >= 9.5 ? 0.2 : 0;
+                totalCreditos = 55;
 
-                    do {
-                        System.out.print("Digite el número de créditos que desa inscribir: ");
-                        creditos=sc.nextInt();
-
-                        if (creditos<=55) {
-                        } else {
-                            System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                        }
-
-                    } while (creditos>55);
-
-                } else {
-                    tCreditos=55;
-                    System.out.println("Sus créditos son: " + tCreditos);
-
-                    do {
-                        System.out.print("Digite el número de créditos que desa inscribir: ");
-                        creditos=sc.nextInt();
-
-                        if (creditos<=55) {
-                        } else {
-                            System.out.println("Numero de créditos exedido. Sus creditos son: " + tCreditos);
-                        }
-
-                    } while (creditos>55);
-
-                }
-
-                vrMatricula= (int) (creditos*600);
-                vrPagar= (int) (vrMatricula-descuento);
-                System.out.println("Numero de créditos: " + creditos);
-                System.out.println("El valor de su matrícula es: $" + vrMatricula);
-                System.out.println("Descuento: " + (descuento*100) + "%");
-                System.out.println("Valor total: $" + vrPagar);
+                System.out.println("Sus créditos son: " + totalCreditos);
+                creditosInscritos = inscribirCreditos(totalCreditos, sc);
+                vrMatricula = creditosInscritos *600;
                 break;
         }
+
+        //imprimir recibo
+        vrPagar = (int) (vrMatricula-descuento);
+        System.out.println("Créditos: " + creditosInscritos);
+        System.out.println("Valor matrícula: $" + vrMatricula);
+        System.out.println("Descuento: " + (descuento*100) + "%");
+        System.out.println("Valor total: $" + vrPagar);
+    }
+
+    public static double obtenerPromedio(Scanner scanner) {
+        System.out.print("Digite el promedio: ");
+        while (true) {
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static boolean validarOpcion(int opcion) {
+        if (opcion<1 || opcion>2) {
+            System.out.println("Error. Opción incorrecta.");
+            return false;
+        }
+        return true;
+    }
+
+    public static int inscribirCreditos(int totalCreditos, Scanner scanner) {
+        int creditosInscritos;
+        do {
+            System.out.print("Digite el número de créditos que desea inscribir: ");
+            while (true) {
+                try {
+                    creditosInscritos = scanner.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error. Ingrese un número.");
+                    scanner.nextLine();
+                }
+            }
+        } while (!validarCreditos(creditosInscritos, totalCreditos));
+        return creditosInscritos;
+    }
+
+    private static boolean validarCreditos(int misCreditos, int totalCreditos) {
+        if (misCreditos > totalCreditos) {
+            System.out.println("número de creditos exedido. Sus créditos son: " + totalCreditos);
+            return false;
+        }
+        return true;
     }
 }

@@ -17,36 +17,32 @@ import java.util.Scanner;
 public class LlantasServiteca {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int llantas, vrUnidad, vrTotal;
+        int llantas, vrTotal;
+        int valorUnidad = 100;
 
-        //encontrar y almacenar el numero de llantas a comprar
         System.out.print("Numero de llantas Pirilli: ");
-        while (true) {
-            try {
-                llantas = sc.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
-            }
-        }
+        llantas = obtenerNumero(sc);
 
-        //encontrar el valor de cada llanta
         if (llantas>10) {
-          vrUnidad = 50;
-        } else if (llantas>=5) {
-            vrUnidad = 75;
-        } else {
-            vrUnidad = 100;
-        }
+            valorUnidad = 50;
+        } else if (llantas>=5) valorUnidad = 75;
 
-        //encontrar valor total de las llantas
-        vrTotal = vrUnidad * llantas;
+        vrTotal = valorUnidad * llantas;
 
         //imprimir recibo
         System.out.println("Llantas Pirilli: " + llantas);
-        System.out.println("Valor Unidad: $" + vrUnidad);
+        System.out.println("Valor Unidad: $" + valorUnidad);
         System.out.println("Valor Total: $" + vrTotal);
+    }
 
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }

@@ -17,48 +17,44 @@ public class CalificacionesMinMax {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int numMin, numNotas;
-        double calificacion;
         int mayoresIguales=0;
+        double calificacion;
 
         System.out.print("Escriba el número de notas: ");
-        while (true) {
-            try {
-                numNotas = sc.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
-            }
-        }
+        numNotas = obtenerNumero(sc);
 
         System.out.print("Esriba la nota mínima: ");
-        while (true) {
-            try {
-                numMin = sc.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
-            }
-        }
+        numMin = obtenerNumero(sc);
 
         for (int i = 1; i <= numNotas; i++)  {
-            System.out.println("Escriba la calificación "  + i + ": ");
-            while (true) {
-                try {
-                    calificacion = sc.nextDouble();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
-            if (calificacion >= numMin) {
-                mayoresIguales++;
-            }
+            System.out.print("Calificación "  + i + ": ");
+            calificacion = obtenerCalificacion(sc);
+
+            if (calificacion >= numMin) mayoresIguales++;
         }
 
         System.out.println("El número de calificación mayores o iguales a " + numMin + " es: " + mayoresIguales);
+    }
 
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static double obtenerCalificacion(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }

@@ -15,35 +15,34 @@ public class NumeroPrimio {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int numero;
-        boolean primo=true;
 
         System.out.print("Ingrese un numero: ");
+        numero = obtenerNumero(sc);
+
+
+        if (esPrimo(numero)) {
+            System.out.println(numero + " Es un numero primo.");
+        } else System.out.println(numero + " No es un numero primo.");
+    }
+
+    public static int obtenerNumero(Scanner scanner) {
         while (true) {
             try {
-                numero = sc.nextInt();
-                break;
+                return scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
+                scanner.nextLine();
             }
         }
+    }
 
-        if (numero<=1) {
-            primo=false;
-        }
-
-        for (int i = 2; i <= numero / 2; i++) {
+    public static boolean esPrimo(int numero) {
+        if (numero < 2) return false;
+        for (int i=2; i<=(numero/2); i++) {
             if (numero % i == 0) {
-                primo = false;
-                break;
+                return false;
             }
         }
-
-        if (primo) {
-            System.out.println(numero + " Es un numero primo.");
-        } else {
-            System.out.println(numero + " No es un numero primo.");
-        }
-
+        return true;
     }
 }

@@ -5,142 +5,92 @@ import java.util.Scanner;
 public class SuperRapido {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double vrKilo = 0, transporte, vrFlete = 0, vrBruto, vrIva, seguro = 0, costo;
-        int internacionales = 0, nFilas;
+        double transporte, costo, valorBruto, valorIVA;
+        double valorKilo = 0;
+        double valorFlete = 0;
+        double seguro = 0;
+        int numeroFilas;
+        int internacionales = 0;
 
         do {
             System.out.println("Ingrese el número de envíos: ");
-            while (true) {
-                try {
-                    nFilas = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
-        } while (nFilas < 0 || nFilas > 100);
+            numeroFilas = obtenerNumero(sc);
+        } while (numeroFilas < 0 || numeroFilas > 10);
 
-        //definir matriz
-        double[][] matriz = new double[nFilas][7];
+        double[][] matriz = new double[numeroFilas][7];
 
-        for (int i=0; i<nFilas; i++){
-            //Tipo de servicio:
-            System.out.println("Elija un tipo de servicio: ");
+        for (int i = 0; i< numeroFilas; i++){
+            System.out.println("TIPO DE SERVICIO: ");
             System.out.println("1. Nacional");
             System.out.println("2. Internacional");
-            int servicio;
-            while (true) {
-                try {
-                    servicio = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) { //excepcion NegativeArraySizeException -> arreglar
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
-            matriz[i][0]=servicio;
-            if (servicio==2) internacionales++;
+            int tipoServicio = obtenerNumero(sc);
 
-            //Peso:
-            System.out.println("Digite el peso del envío en kilos: ");
-            double kilos;
-            while (true) {
-                try {
-                    kilos = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
+            matriz[i][0]= tipoServicio;
+            if (tipoServicio ==2) internacionales++;
+
+            System.out.println("PESO DEL ENVIO (KILOS): ");
+            double kilos = obtenerNumero(sc);
             matriz[i][2]=kilos;
 
-            //Tipo de producto:
-            System.out.println("Digite el tipo de producto: ");
+            System.out.println("TIPO DE PRODUCTO: ");
             System.out.println("1. Normal. ");
             System.out.println("2. Rápido. ");
             System.out.print("Opcion: ");
-            int opcion;
-            while (true) {
-                try {
-                    opcion = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese el número.");
-                    sc.nextLine();
-                }
-            }
-            matriz[i][1]=opcion;
+            int opcionProducto = obtenerNumero(sc);
+            matriz[i][1]=opcionProducto;
 
             //determinar el valor del kilo
-            vrKilo = switch (opcion) {
+            valorKilo = switch (opcionProducto) {
                 case 1 -> (kilos > 8) ? 3900 : 3600;
                 case 2 -> (kilos > 8) ? 4500 : 4200;
-                default -> vrKilo;
+                default -> valorKilo;
             };
 
-            //Valor del transporte:
-            transporte=vrKilo*kilos;
+            //asignar valor de transporte
+            transporte = valorKilo *kilos;
 
-            //Flete internacional:
-            switch (servicio) {
+            //flete internacional
+            switch (tipoServicio) {
                 case 1 -> seguro = 2;
                 case 2 -> {
                     seguro = 4;
-                    vrFlete = (transporte * 10) / 100;
-                    matriz[i][3]=vrFlete;
+                    valorFlete = (transporte*10)/100;
+                    matriz[i][3] = valorFlete;
                 }
             }
 
-            //Valor seguro
-            seguro=(transporte*seguro)/100;
-            matriz[i][4]=seguro;
+            //asignar valor de seguro
+            seguro = (transporte*seguro)/100;
+            matriz[i][4] = seguro;
 
-            //Valor bruto:
-            vrBruto=transporte+vrFlete+seguro;
+            //asignar valor bruto
+            valorBruto = transporte + valorFlete + seguro;
 
-            //vrIva
-            vrIva=(vrBruto*19)/100;
-            matriz[i][5]=vrIva;
+            //asignar valor IVA
+            valorIVA =(valorBruto *19)/100;
+            matriz[i][5]= valorIVA;
 
-            //Costo servicio:
-            costo=vrBruto+vrIva;
+            //asignar costo del servicio
+            costo= valorBruto + valorIVA;
             matriz[i][6]=costo;
         }
 
         //imprimir matriz
-        System.out.println("Srvc  Prdcto  Kilos  Flete    Seguro    IVA     Costo");
-        for (double[] doubles : matriz) {
-            for (int j = 0; j < matriz[0].length; j++) {
-                System.out.print(doubles[j] + "    ");
-            }
-            System.out.println();
-        }
+        mostrarMatriz(matriz);
 
         System.out.println("TIPO DE PRODUCTO");
         System.out.println("Enviós normales: ");
-        for (int i=0; i<matriz.length; i++){
-            if (matriz[i][1] == 1){
-                System.out.println("Envío número " + (i+1) + " con valor de: $" + matriz[i][6]);
-            }
-        }
+        obtenerProducto(1, matriz);
         System.out.println("Envíos rápidos: ");
-        for (int i=0; i<matriz.length; i++){
-            if (matriz[i][1] == 2){
-                System.out.println("Envío número " + (i+1) + " con valor de: $" + matriz[i][6]);
-            }
-        }
-        System.out.println();
+        obtenerProducto(2, matriz);
 
         System.out.println("CANTIDAD Y COSTO DE PAQUETES A NIVEL INTERNACIONAL");
-        System.out.println(internacionales + " envíos internacionales. " );
+        System.out.println(internacionales + " envíos internacionales." );
         for (int i=0; i<matriz.length; i++){
             if (matriz[i][0] == 2){
                 System.out.println("Envío número " + (i+1) + " con valor de: $" + matriz[i][6]);
             }
         }
-        System.out.println();
 
         System.out.println("VALOR DEL IVA DE LOS ENVIOS NACIONALES");
         for (int i=0; i<matriz.length; i++){
@@ -148,24 +98,49 @@ public class SuperRapido {
                 System.out.println("Envío número " + (i+1) + " tiene un IVA de: $" + matriz[i][5]);
             }
         }
-        System.out.println();
 
         System.out.println("CANTIDAD DE ENVIOS Y COSTO DEL SEGURO POR CADA TIPO DE SERVICIO");
-        System.out.println("Número de paquetes: " + nFilas);
+        System.out.println("Número de paquetes: " + numeroFilas);
         System.out.println("Servicios nacionales: ");
-        for (int i=0; i<matriz.length; i++){
-            if (matriz[i][0] == 1){
-                System.out.println("Envío número " + (i+1) + " tiene un seguro de: $" + matriz[i][4]);
-            }
-        }
-        System.out.println();
-
+        obtenerSeguro(1, matriz);
         System.out.println("Servicios internacionales: ");
-        for (int i=0; i<matriz.length; i++){
-            if (matriz[i][0] == 2){
+        obtenerSeguro(2, matriz);
+    }
+
+    public static void mostrarMatriz(double[][] matriz) {
+        //mejorar la forma de mostrar una tabla
+        for (double[] doubles : matriz) {
+            for (double aDouble : doubles) {
+                System.out.print(aDouble + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void obtenerProducto(int fila, double[][] matriz) {
+        for (int i=0; i<matriz.length; i++) {
+            if (matriz[i][1] == fila) {
+                System.out.println("Envío número " + (i+1) + " con valor de: $" + matriz[i][6]);
+            }
+        }
+    }
+
+    public static void obtenerSeguro(int fila, double[][] matriz) {
+        for (int i=0; i<matriz.length; i++) {
+            if (matriz[i][0] == fila) {
                 System.out.println("Envío número " + (i+1) + " tiene un seguro de: $" + matriz[i][4]);
             }
         }
+    }
 
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }

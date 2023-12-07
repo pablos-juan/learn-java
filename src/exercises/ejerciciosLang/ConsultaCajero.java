@@ -19,48 +19,33 @@ import java.util.Scanner;
 
 public class ConsultaCajero {
     public static void main(String[] args) {
-
-        //Entrada de datos.
         Scanner sc = new Scanner(System.in);
+        int disponible, retirar;
 
-        //Declarar variables.
-        int dDisponible, dRetirar;
-
-        //Encontrar la cantidad de dinero que tiene el cajero y el monto que desea retirar.
         System.out.print("Digite la cantidad de dinero que tiene el cajero: ");
-        while (true) {
-            try {
-                dDisponible = sc.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
-            }
-        }
+        disponible = obtenerCantidad(sc);
 
         System.out.print("Digite la cantidad que desea retirar: ");
+        retirar = obtenerCantidad(sc);
+
+        if (retirar %10!=0 || retirar <0) {
+            System.out.println("Cantidad incorrecta.");
+        } else if (retirar > disponible) {
+            System.out.println("Dinero insuficiente.");
+        } else {
+            disponible -= retirar;
+            System.out.println("Extraccion exitosa! Saldo del cajero: $" + disponible);
+        }
+    }
+
+    public static int obtenerCantidad(Scanner scanner) {
         while (true) {
             try {
-                dRetirar = sc.nextInt();
-                break;
+                return scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Error. Ingrese un número.");
-                sc.nextLine();
+                scanner.nextLine();
             }
         }
-
-        //Condicionales.
-        if (dRetirar%10!=0) {
-            System.out.println("No es cantidad correcta.");
-        } else if (dRetirar>dDisponible) {
-            System.out.println("No hay dinero suficiente.");
-        } else if (dRetirar<0) {
-            System.out.println("No es cantidad correcta");
-        } else {
-            dDisponible -= dRetirar;
-            //Imprimir saldo del cajero.
-            System.out.println("Extraccion exitosa, el saldo del cajero es: " + dDisponible );
-        }
-
     }
 }

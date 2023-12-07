@@ -22,22 +22,12 @@ public class TipoDeAuto {
 
         System.out.println("~TIPO DE VEHICULO~");
         do {
-
             System.out.println("Seleccione el tipo de vehiculo: ");
-            System.out.println("1. SUV.");
-            System.out.println("2. Auto.");
-            System.out.println("3. Camioneta.");
+            System.out.println("1. SUV");
+            System.out.println("2. Auto");
+            System.out.println("3. Camioneta");
             System.out.print("Opcion: ");
-
-            while (true) {
-                try {
-                    opcionAuto = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
+            opcionAuto = obtenerNumero(sc);
 
             switch (opcionAuto) {
                 case 1 -> auto = "SUV";
@@ -45,28 +35,17 @@ public class TipoDeAuto {
                 case 3 -> auto = "Camioneta";
                 default -> System.out.println("Opción incorrecta");
             }
-
         } while (opcionAuto<1 || opcionAuto>3);
 
 
         System.out.println("~COLOR DEL VEHICULO~");
         do {
-
             System.out.println("Seleccione el color de su " + auto + ": ");
-            System.out.println("1. Negro.");
-            System.out.println("2. Rojo.");
-            System.out.println("3. Blanco.");
+            System.out.println("1. Negro");
+            System.out.println("2. Rojo");
+            System.out.println("3. Blanco");
             System.out.print("Opcion: ");
-
-            while (true) {
-                try {
-                    opcionColor = sc.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Error. Ingrese un número.");
-                    sc.nextLine();
-                }
-            }
+            opcionColor = obtenerNumero(sc);
 
             switch (opcionColor) {
                 case 1 -> color = "Negro";
@@ -74,11 +53,20 @@ public class TipoDeAuto {
                 case 3 -> color = "Blanco";
                 default -> System.out.println("Opcion incorrecta.");
             }
-
         } while (opcionColor<1 || opcionColor>3);
 
-        System.out.println();
         System.out.println("El tipo de vehiculo es: " + auto);
         System.out.println("El color se su " + auto + " es: " + color);
+    }
+
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
     }
 }
