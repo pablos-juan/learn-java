@@ -31,11 +31,12 @@ public class Estacionamiento {
 
         do {
             do {
-                System.out.println("1. Añadir auto en una posición aleatoria");
-                System.out.println("2. Añadir auto en una posición específica");
-                System.out.println("3. Mostrar espacios ocupados");
-                System.out.println("4. Parking lleno");
-                System.out.println("5. Salir");
+                System.out.println("""
+                        1. añadir auto en una posición aleatoria
+                        2. añadir auto en una posición específica
+                        3. mostrar espacios ocupados
+                        4. parking lleno
+                        5. salir""");
                 System.out.print("Opción: ");
                 opcion = obtenerNumero(sc);
             } while (opcion<1 || opcion>5);
@@ -53,8 +54,7 @@ public class Estacionamiento {
                     //asignar parqueadero
                     parking[fila][columna] = 1;
                     espaciosOcupados++;
-                    System.out.println(fila+1);
-                    System.out.println(columna+1);
+                    System.out.println("añadido en: " + (fila+1) + ", " + (columna+1));
                     break;
                 case 2: //añadir auto en posicion específica
                     if (parqueaderoLleno(espaciosOcupados, totalEspacios)) break;
