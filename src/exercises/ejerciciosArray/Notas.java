@@ -20,81 +20,112 @@ la opción 0 acaba el programa
 */
 
 package exercises.ejerciciosArray;
-import java.util.Scanner;
+import java.util.*;
 
 public class Notas {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double[] notas = new double[50];
+        List<Double> notas = new ArrayList<>();
         int opcion;
-        int contador=0;
+        int totalNotas = 0;
 
         do {
-            System.out.println("1. Introducir nota");
-            System.out.println("2. Mostrar nota media");
-            System.out.println("3. Mostrar notas extremas");
-            System.out.println("4. Mostrar nostas");
-            System.out.println("5. Eliminar nota");
-            System.out.println("0. Salir");
+            System.out.println("""
+                                1. introducir nota
+                                2. mostrar nota media
+                                3. mostrar notas extremas
+                                4. mostrar nostas
+                                5. eliminar nota
+                                0. salir""");
             System.out.print("Opción: ");
-            opcion = sc.nextInt();
+            opcion = obtenerNumero(sc);
 
             switch (opcion) {
-                case 1:
+                case 1: //introducir nota
                     System.out.print("Ingrese una nueva nota: ");
-                    notas[contador]=sc.nextDouble();
-                    contador++;
+                    notas.add(obtenerNota(sc));
+                    totalNotas++;
                     break;
-                case 2:
-                    double acum =0;
-                    for (double nota : notas) {
-                        acum+=nota;
-                    }
-                    System.out.println("La nota media es: " + (acum/contador));
-                    break;
-                case 3:
-                    if (contador>0){
-                        double notaMenor=notas[0];
-                        double notaMayor=notas[0];
+                case 2: //mostrar nota media
+                    double acumulado = 0;
+                    for (double nota : notas) acumulado += nota;
 
-                        for (int i=1; i<contador; i++){
-                            if (notaMenor>notas[i]){
-                                notaMenor=notas[i];
-                            }
-                            if (notaMayor<notas[i]){
-                                notaMayor=notas[i];
-                            }
-                        }
+                    System.out.println("La nota media es: " + (acumulado / totalNotas));
+                    break;
+                case 3: //mostrar notas extremas
+                    if (sinNotas(totalNotas)) break;
 
-                        System.out.println("Nota menor: " + notaMenor);
-                        System.out.println("Nota mayor: " + notaMayor);
-                    } else {
-                        System.out.println("No hay notas.");
-                    }
+                    System.out.println("Nota menor: " + notaBaja(notas)
+                                    + "\nNota mayor: " + notaAlta(notas));
                     break;
-                case 4:
-                    if (contador>0) {
-                        System.out.println("Notas introducidas: ");
-                        for (int i = 0; i < contador; i++) {
-                            System.out.println(notas[i]);
-                        }
-                    } else {
-                        System.out.println("No hay notas");
-                    }
+                case 4: //mostrar notas
+                    if (sinNotas(totalNotas)) break;
+
+                    System.out.println("Notas introducidas: ");
+                    notas.forEach(System.out::println);
                     break;
-                case 5:
-                    System.out.print("Ingrese la posicion de la nota que desea eliminar: ");
-                    int posicion=sc.nextInt();
-                    for (int i=(posicion-1); i<contador; i++){
-                        notas[i]=notas[i+1];
-                    }
-                    contador--;
-                    System.out.println("Nota eliminada.");
+                case 5: //eliminar nota
+                    if (sinNotas(totalNotas)) break;
+                    System.out.print("Ingrese la nota que desea eliminar: ");
+                    int notaEliminar = obtenerNumero(sc);
+
+                    eliminarNota(notas, notaEliminar);
+                    totalNotas--;
                     break;
-                case 0:
+                case 0: //eliminar nota
                     System.out.println("Adios :) ");
+                    break;
+                default:
+                    System.out.println("Error. Elija una de las opciones");
                     break;
             }
         } while (opcion!=0);
     }
+
+    public static double notaAlta(List<Double> notas) {
+        return notas.stream().max(Double::compare).orElseThrow();
+    }
+
+    public static double notaBaja(List<Double> notas) {
+        return notas.stream().min(Double::compare).orElseThrow();
+    }
+
+    public static void eliminarNota(List<Double> notas, double notaEliminar) {
+        while (notas.contains(notaEliminar)) {
+            notas.remove(notaEliminar);
+            System.out.println("nota eliminada!");
+        }
+    }
+
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static double obtenerNota(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static boolean sinNotas(int totalNotas) {
+        boolean sinNotas = totalNotas > 0;
+        if (sinNotas) {
+            System.out.println("Sin notas");
+            return true;
+        }
+        return false;
+    }
+
 }
