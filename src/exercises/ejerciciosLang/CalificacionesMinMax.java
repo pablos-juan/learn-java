@@ -23,7 +23,7 @@ public class CalificacionesMinMax {
         System.out.print("Enter number of qualification: ");
         qualificationsNumber = getNumber(sc);
 
-        System.out.print("Esriba la nota mínima: ");
+        System.out.print("Write the minimum qualification: ");
         minimumQualification = getNumber(sc);
 
         for (int i = 1; i <= qualificationsNumber; i++)  {
