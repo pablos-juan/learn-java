@@ -16,52 +16,50 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalculoUtilidad {
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double salarioMensual = obtenerSalarioMensual(sc);
-        int antiguedad = obtenerAntiguedad(sc);
-        double utilidad = obtenerUtilidad(salarioMensual, antiguedad);
+        double monthlySalary = obtenerSalarioMensual(sc);
+        int tenure = getAntique(sc);
+        double utility = getUtility(monthlySalary, tenure);
 
-        System.out.println("La utilidad del trabajador es: $" + utilidad);
+        System.out.println("Worker utility: $" + utility);
     }
 
-    //refactoring code
-    private static double obtenerSalarioMensual(Scanner scanner) {
+    public static double obtenerSalarioMensual(Scanner scanner) {
         while (true) {
-            System.out.print("Ingrese el salario mensual: ");
+            System.out.print("Enter monthly salary: ");
             try {
                 return scanner.nextDouble();
             } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
+                System.out.println("Error. Enter a number.");
                 scanner.nextLine();
             }
         }
     }
 
-    private static int obtenerAntiguedad(Scanner scanner) {
+    public static int getAntique(Scanner scanner) {
         while (true) {
-            System.out.print("Ingrese la antiguedad en años: ");
+            System.out.print("Enter years of service: ");
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
+                System.out.println("Error. Enter a number.");
                 scanner.nextLine();
             }
         }
     }
 
-    private static double obtenerUtilidad(double salarioMensual, int antiguedad) {
-        if (antiguedad >= 10) {
-            return salarioMensual * 0.20;
-        } else if (antiguedad >= 5) {
-            return salarioMensual * 0.15;
-        } else if (antiguedad >= 2) {
-            return salarioMensual * 0.10;
-        } else if (antiguedad == 1) {
-            return salarioMensual * 0.07;
+    private static double getUtility(double monthlySalary, int tenure) {
+        if (tenure >= 10) {
+            return monthlySalary * 0.20;
+        } else if (tenure >= 5) {
+            return monthlySalary * 0.15;
+        } else if (tenure >= 2) {
+            return monthlySalary * 0.10;
+        } else if (tenure == 1) {
+            return monthlySalary * 0.07;
         } else {
-            return salarioMensual * 0.05;
+            return monthlySalary * 0.05;
         }
     }
 }
