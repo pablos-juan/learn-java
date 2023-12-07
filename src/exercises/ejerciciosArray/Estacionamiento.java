@@ -16,6 +16,7 @@ usuario estas opciones:
 */
 
 package exercises.ejerciciosArray;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Estacionamiento {
@@ -30,76 +31,87 @@ public class Estacionamiento {
 
         do {
             do {
-                System.out.println("1. Añadir auto en una posición aleatoria.");
-                System.out.println("2. Añadir auto en una posición específica.");
-                System.out.println("3. Mostrar espacios ocupados.");
-                System.out.println("4. Parking lleno.");
-                System.out.println("5. Salir.");
+                System.out.println("1. Añadir auto en una posición aleatoria");
+                System.out.println("2. Añadir auto en una posición específica");
+                System.out.println("3. Mostrar espacios ocupados");
+                System.out.println("4. Parking lleno");
+                System.out.println("5. Salir");
                 System.out.print("Opción: ");
-                opcion = sc.nextInt();
+                opcion = obtenerNumero(sc);
             } while (opcion<1 || opcion>5);
 
-            //Guardar los valores de filas y columnas
             int fila, columna;
             switch (opcion) {
-                case 1:
-                    if (espaciosOcupados<totalEspacios) {
-                        //Encontrar un espacio aleatrio
-                        do {
-                            fila = (int) (Math.random()*3);
-                            columna = (int) (Math.random()*4);
-                        } while (parking[fila][columna] == 1); //Repetir mientras ese espacio esté ocupado
+                case 1://añadir auto en posicion aleatoria
+                    if (parqueaderoLleno(espaciosOcupados, totalEspacios)) break;
 
-                        parking[fila][columna] = 1;
+                    do { //encontrar un espacio libre aleatorio
+                        fila = (int) (Math.random()*3);
+                        columna = (int) (Math.random()*4);
+                    } while (parking[fila][columna] == 1);
+
+                    //asignar parqueadero
+                    parking[fila][columna] = 1;
+                    espaciosOcupados++;
+                    System.out.println(fila+1);
+                    System.out.println(columna+1);
+                    break;
+                case 2: //añadir auto en posicion específica
+                    if (parqueaderoLleno(espaciosOcupados, totalEspacios)) break;
+                    System.out.println("Ingrese la posición del parking:");
+                    System.out.print("Fila: ");
+                    fila = obtenerNumero(sc) - 1;
+                    System.out.print("Columna: ");
+                    columna = obtenerNumero(sc) - 1;
+
+                    if (parking[fila][columna]==0){
+                        parking[fila][columna]=1;
                         espaciosOcupados++;
-                        System.out.println(fila+1);
-                        System.out.println(columna+1);
-                    } else {
-                        System.out.println("El parqueadero esta lleno.");
-                    }
+                        System.out.println("Parking asignado");
+                    } else System.out.println("Posición ocupada");
                     break;
-                case 2:
-                    if (espaciosOcupados<totalEspacios) {
-                        System.out.println("Ingrese la posición del parking:");
-                        System.out.print("Fila: ");
-                        fila=(sc.nextInt()-1);
-                        System.out.print("Columna: ");
-                        columna=(sc.nextInt()-1);
-
-                        if (parking[fila][columna]==0){
-                            parking[fila][columna]=1;
-                            espaciosOcupados++;
-                            System.out.println("Parking asignado");
-                        } else {
-                            System.out.println("Posición ocupada");
-                        }
-                    }
-                    break;
-                case 3:
+                case 3: //listar espacios ocupados
                     if (espaciosOcupados>0) {
                         System.out.println("Espacios ocupados: " + espaciosOcupados);
-                        for (int f = 0; f < parking.length; f++) {
-                            for (int c = 0; c < parking[f].length; c++) {
-                                if (parking[f][c] == 1) {
-                                    System.out.println("Fila: " + f + ". Columna: " + c);
-                                }
-                            }
-                        }
-                    } else {
-                        System.out.println("El parqueadero está vacío.");
-                    }
+                        printParqueadero(parking);
+                    } else System.out.println("El parqueadero está vacío.");
                     break;
-                case 4:
-                    if (espaciosOcupados>totalEspacios){
-                        System.out.println("El parqueadero está lleno.");
-                    } else {
-                        System.out.println("El parqueadero está vacío.");
-                    }
+                case 4: //comprobar si el parking está lleno
+                    if (parqueaderoLleno(espaciosOcupados, totalEspacios)){
+                        System.out.println("Parqueadero lleno.");
+                    } else System.out.println("Espacios disponibles.");
                     break;
-                case 5:
+                case 5: //salir
                     System.out.println("Adios :) ");
                     break;
             }
         }while (opcion!=5);
+    }
+
+    public static int obtenerNumero(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Error. Ingrese un número.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static boolean parqueaderoLleno(int espaciosOcupados, int totalEspacios) {
+        boolean parqueaderoLleno = espaciosOcupados >= totalEspacios;
+        if (parqueaderoLleno) System.out.println("Imposible. Parqueadero lleno.");
+
+        return parqueaderoLleno;
+    }
+
+    public static void printParqueadero(int[][] matriz) {
+        for (int[] ints : matriz) {
+            for (int anInt : ints) {
+                System.out.print(anInt + "\t");
+            }
+            System.out.println();
+        }
     }
 }
