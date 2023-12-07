@@ -16,32 +16,33 @@ import java.util.Scanner;
 public class CalificacionesMinMax {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int numMin, numNotas;
-        int mayoresIguales=0;
-        double calificacion;
+        int minimumQualification, qualificationsNumber;
+        int greaterThan = 0;
+        double qualification;
 
-        System.out.print("Escriba el número de notas: ");
-        numNotas = obtenerNumero(sc);
+        System.out.print("Enter number of qualification: ");
+        qualificationsNumber = getNumber(sc);
 
         System.out.print("Esriba la nota mínima: ");
-        numMin = obtenerNumero(sc);
+        minimumQualification = getNumber(sc);
 
-        for (int i = 1; i <= numNotas; i++)  {
-            System.out.print("Calificación "  + i + ": ");
-            calificacion = obtenerCalificacion(sc);
+        for (int i = 1; i <= qualificationsNumber; i++)  {
+            System.out.print("Qualification "  + i + ": ");
+            qualification = obtenerCalificacion(sc);
 
-            if (calificacion >= numMin) mayoresIguales++;
+            if (qualification >= minimumQualification) greaterThan++;
         }
 
-        System.out.println("El número de calificación mayores o iguales a " + numMin + " es: " + mayoresIguales);
+        System.out.println("The number of qualifications equal of or greater than "
+                            + minimumQualification + " are: " + greaterThan);
     }
 
-    public static int obtenerNumero(Scanner scanner) {
+    public static int getNumber(Scanner scanner) {
         while (true) {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
+                System.out.println("Error. Enter a number.");
                 scanner.nextLine();
             }
         }
@@ -52,7 +53,7 @@ public class CalificacionesMinMax {
             try {
                 return scanner.nextDouble();
             } catch (InputMismatchException e) {
-                System.out.println("Error. Ingrese un número.");
+                System.out.println("Error. Enter a number.");
                 scanner.nextLine();
             }
         }
