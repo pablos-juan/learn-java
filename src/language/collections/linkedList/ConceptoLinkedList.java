@@ -1,7 +1,7 @@
 package language.collections;
 import java.util.LinkedList;
 
-public class EjemploLinkedList {
+public class ConceptoLinkedList {
     public static void main(String[] args) {
         LinkedList<String> lista = new LinkedList<>();
 

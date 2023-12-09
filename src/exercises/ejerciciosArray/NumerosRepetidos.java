@@ -21,7 +21,6 @@ public class NumerosRepetidos {
             }
             System.out.println();
         }
-
         //comprobar si hay un número repetido 
         System.out.println(repetido(matriz));
     }
@@ -43,8 +42,7 @@ public class NumerosRepetidos {
                 }
                 
             }
-        }   
-        
+        }
         return false;
     }
 }
